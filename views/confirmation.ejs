@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Booking Confirmed | Wanderlust</title>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+
+    <div class="booking-container">
+        <h1>🎉 Booking Confirmed!</h1>
+
+        <h3><%= booking.listing.title %></h3>
+
+        <p>📍 <%= booking.listing.location %>, 
+            <%= booking.listing.country %></p>
+
+        <hr>
+
+        <p>Check-in: <%= booking.checkIn.toDateString() %></p>
+
+        <p>Check-out: <%= booking.checkOut.toDateString() %></p>
+
+        <p>Total Price: ₹ <%= booking.totalPrice %></p>
+
+        <p>Status: ✅ <%= booking.status %></p>
+
+        <a href="/" class="action-btn edit-btn">
+            Explore More Listings
+        </a>
+    </div>
+
+</body>
+</html>

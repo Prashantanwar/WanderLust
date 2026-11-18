@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title><%= listing.title %> | Wanderlust</title>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+
+<body>
+
+<nav class="navbar">
+
+    <a href="/" class="logo">
+        <span>W</span> Wanderlust
+    </a>
+
+    <div class="nav-links">
+
+        <a href="/" class="nav-item">Explore</a>
+
+        <% if (!currentUser) { %>
+
+            <a href="/login">Login</a>
+            <a href="/signup">Sign Up</a>
+
+        <% } else { %>
+
+            <span>Welcome, <%= currentUser.username %></span>
+           <a href="/my-bookings">📋 My Bookings</a>
+           
+            <form action="/logout" method="POST">
+                <button type="submit" class="nav-logout-btn">
+                    Logout
+                </button>
+            </form>
+
+        <% } %>
+
+        <a href="/listings/new" class="add-listing-btn">
+            + Add Listing
+        </a>
+
+    </div>
+
+</nav>
+
+    <div class="listing-details">
+
+        <h1><%= listing.title %></h1>
+<p>TEST: Listing details page is working!</p>
+        <img
+            src="<%= listing.image %>"
+            alt="<%= listing.title %>"
+        >
+
+        <h2>
+            📍 <%= listing.location %>, <%= listing.country %>
+        </h2>
+
+        <p>
+            <%= listing.description %>
+        </p>
+
+        <p class="price">
+            ₹ <%= listing.price %> / night
+        </p>
+
+        <p>
+            Category: <%= listing.category %>
+        </p>
+
+        <hr>
+
+<h2>⭐ Leave a Review</h2>
+
+<% if (currentUser) { %>
+    <form action="/listings/<%= listing._id %>/reviews" method="POST" class="review-form">
+
+        <label for="rating">Rating</label>
+        <select name="rating" id="rating" required>
+            <option value="5">★★★★★ - Excellent</option>
+            <option value="4">★★★★ - Very Good</option>
+            <option value="3">★★★ - Good</option>
+            <option value="2">★★ - Average</option>
+            <option value="1">★ - Poor</option>
+        </select>
+
+        <label for="comment">Your Review</label>
+        <textarea name="comment" id="comment"
+            placeholder="Share your experience..." required></textarea>
+
+        <button type="submit">Submit Review</button>
+    </form>
+<% } else { %>
+    <p><a href="/login">Log in</a> to write a review.</p>
+<% } %>
+
+<hr>
+
+<h2>Guest Reviews</h2>
+
+<% if (listing.reviews.length > 0) { %>
+    <% for (let review of listing.reviews) { %>
+        <div class="review-card">
+            <h3>⭐ <%= review.rating %>/5</h3>
+            <p><%= review.comment %></p>
+            <small>By <%= review.author ? review.author.username : "Unknown user" %></small>
+        </div>
+    <% } %>
+<% } else { %>
+    <p>No reviews yet. Be the first to review!</p>
+<% } %>
+
+       <div class="listing-actions">
+
+    <a href="/" class="action-btn back-btn">
+        ← Back to Listings
+    </a>
+
+    <a href="/listings/<%= listing._id %>/book" class="action-btn edit-btn">
+    🏡 Book Your Stay
+</a>
+
+    <% if (currentUser && listing.owner &&
+        listing.owner.toString() === currentUser._id.toString()) { %>
+
+        <a href="/listings/<%= listing._id %>/edit"
+           class="action-btn edit-btn">
+            ✏️ Edit Listing
+        </a>
+
+        <form
+            action="/listings/<%= listing._id %>?_method=DELETE"
+            method="POST"
+            onsubmit="return confirm('Are you sure you want to delete this listing?')">
+
+            <button type="submit" class="action-btn delete-btn">
+                🗑️ Delete
+            </button>
+
+        </form>
+
+    <% } %>
+
+</div>
+    </div>
+
+</body>
+
+</html>

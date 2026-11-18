@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Dashboard | Wanderlust</title>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+
+    <div class="dashboard-container">
+
+        <h1>My Dashboard 👤</h1>
+        <p class="dashboard-subtitle">
+            Manage your trips and bookings in one place.
+        </p>
+
+        <!-- Upcoming Bookings -->
+        <section class="dashboard-section">
+            <h2>🏡 Upcoming & Active Bookings</h2>
+
+            <% if (upcomingBookings.length === 0) { %>
+                <p class="empty-message">No upcoming bookings.</p>
+            <% } else { %>
+
+                <% for (let booking of upcomingBookings) { %>
+                    <div class="dashboard-card">
+
+                        <% if (booking.listing) { %>
+                            <h3><%= booking.listing.title %></h3>
+                            <p>📍 <%= booking.listing.location %>, <%= booking.listing.country %></p>
+                        <% } else { %>
+                            <h3>Property no longer available</h3>
+                        <% } %>
+
+                        <p>Check-in: <%= booking.checkIn.toDateString() %></p>
+                        <p>Check-out: <%= booking.checkOut.toDateString() %></p>
+                        <p>Total: ₹ <%= booking.totalPrice %></p>
+                        <p class="status-confirmed">✅ <%= booking.status %></p>
+
+                        <form
+                            action="/bookings/<%= booking._id %>/cancel"
+                            method="POST"
+                            onsubmit="return confirm('Cancel this booking?')"
+                        >
+                            <button class="cancel-booking-btn">
+                                Cancel Booking
+                            </button>
+                        </form>
+
+                    </div>
+                <% } %>
+
+            <% } %>
+        </section>
+
+
+        <!-- Past Bookings -->
+        <section class="dashboard-section">
+            <h2>🕒 Past Bookings</h2>
+
+            <% if (pastBookings.length === 0) { %>
+                <p class="empty-message">No past bookings yet.</p>
+            <% } else { %>
+
+                <% for (let booking of pastBookings) { %>
+                    <div class="dashboard-card">
+
+                        <h3>
+                            <%= booking.listing
+                                ? booking.listing.title
+                                : "Property no longer available" %>
+                        </h3>
+
+                        <p>Check-in: <%= booking.checkIn.toDateString() %></p>
+                        <p>Check-out: <%= booking.checkOut.toDateString() %></p>
+                        <p>Total: ₹ <%= booking.totalPrice %></p>
+                        <p class="status-past">Completed</p>
+
+                    </div>
+                <% } %>
+
+            <% } %>
+        </section>
+
+
+        <!-- Cancelled Bookings -->
+        <section class="dashboard-section">
+            <h2>❌ Cancelled Bookings</h2>
+
+            <% if (cancelledBookings.length === 0) { %>
+                <p class="empty-message">No cancelled bookings.</p>
+            <% } else { %>
+
+                <% for (let booking of cancelledBookings) { %>
+                    <div class="dashboard-card">
+
+                        <h3>
+                            <%= booking.listing
+                                ? booking.listing.title
+                                : "Property no longer available" %>
+                        </h3>
+
+                        <p>Check-in: <%= booking.checkIn.toDateString() %></p>
+                        <p>Check-out: <%= booking.checkOut.toDateString() %></p>
+                        <p>Total: ₹ <%= booking.totalPrice %></p>
+                        <p class="status-cancelled">❌ Cancelled</p>
+
+                    </div>
+                <% } %>
+
+            <% } %>
+        </section>
+
+        <a href="/" class="action-btn edit-btn">Explore More Properties</a>
+
+    </div>
+
+</body>
+</html>

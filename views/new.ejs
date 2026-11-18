@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add New Listing | Wanderlust</title>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+
+<body>
+
+ <nav class="navbar">
+
+    <a href="/" class="logo">
+        <span>W</span> Wanderlust
+    </a>
+
+<div class="nav-links">
+    <a href="/" class="nav-item">Explore</a>
+
+    <% if (!currentUser) { %>
+
+        <a href="/login">Login</a>
+        <a href="/signup">Sign Up</a>
+
+    <% } else { %>
+
+        <span>Welcome, <%= currentUser.username %></span>
+
+        <form action="/logout" method="POST">
+            <button type="submit" class="nav-logout-btn">
+                Logout
+            </button>
+        </form>
+
+    <% } %>
+
+    <a href="/listings/new" class="add-listing-btn">
+        + Add Listing
+    </a>
+</div>
+
+</nav>
+
+    <div class="form-container">
+        <h1>Add a New Listing</h1>
+
+        <form action="/listings" method="POST">
+
+            <label>Property Title</label>
+            <input type="text" name="title" placeholder="Enter property name" required>
+
+            <label>Description</label>
+            <textarea name="description" placeholder="Describe your property"></textarea>
+
+            <label>Image URL</label>
+            <input type="text" name="image" placeholder="Paste image URL">
+
+            <label>Price per night (₹)</label>
+            <input type="number" name="price" placeholder="Enter price" required>
+
+            <label>Location</label>
+            <input type="text" name="location" placeholder="Enter city" required>
+
+            <label>Country</label>
+            <input type="text" name="country" placeholder="Enter country" required>
+
+            <label>Category</label>
+            <select name="category" required>
+                <option value="">Select category</option>
+                <option value="Beaches">Beaches</option>
+                <option value="Mountains">Mountains</option>
+                <option value="City">City</option>
+            </select>
+
+            <button type="submit">Create Listing</button>
+
+        </form>
+    </div>
+
+</body>
+</html>

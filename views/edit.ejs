@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Edit Listing | Wanderlust</title>
+
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+
+<body>
+
+   <nav class="navbar">
+
+    <a href="/" class="logo">
+        <span>W</span> Wanderlust
+    </a>
+
+    <div class="nav-links">
+        <a href="/" class="nav-item">Explore</a>
+        <a href="/login">Login</a>
+        <a href="/signup">Sign Up</a>
+        <a href="/listings/new" class="add-listing-btn">
+            + Add Listing
+        </a>
+    </div>
+
+</nav>
+
+    <div class="form-container">
+
+        <h1>Edit Your Listing</h1>
+
+        <form action="/listings/<%= listing._id %>?_method=PUT" method="POST">
+
+            <label>Property Title</label>
+            <input type="text" name="title" value="<%= listing.title %>" required>
+
+            <label>Description</label>
+            <textarea name="description"><%= listing.description %></textarea>
+
+            <label>Image URL</label>
+            <input type="text" name="image" value="<%= listing.image || '' %>">
+
+            <label>Price per night (₹)</label>
+            <input type="number" name="price" value="<%= listing.price %>" required>
+
+            <label>Location</label>
+            <input type="text" name="location" value="<%= listing.location %>" required>
+
+            <label>Country</label>
+            <input type="text" name="country" value="<%= listing.country %>" required>
+
+            <label>Category</label>
+
+            <select name="category" required>
+                <option value="Beaches" <%= listing.category === "Beaches" ? "selected" : "" %>>Beaches</option>
+
+                <option value="Mountains" <%= listing.category === "Mountains" ? "selected" : "" %>>Mountains</option>
+
+                <option value="City" <%= listing.category === "City" ? "selected" : "" %>>City</option>
+            </select>
+
+            <button type="submit">Save Changes</button>
+
+        </form>
+
+    </div>
+
+</body>
+</html>

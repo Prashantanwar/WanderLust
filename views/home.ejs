@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Wanderlust | Find Your Stay</title>
+
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+
+<body>
+
+   <nav class="navbar">
+
+    <a href="/" class="logo">
+        <span>W</span> Wanderlust
+    </a>
+    
+<div class="nav-links">
+
+    <a href="/" class="nav-item">Explore</a>
+
+    <% if (!currentUser) { %>
+
+        <a href="/login">Login</a>
+        <a href="/signup">Sign Up</a>
+
+    <% } else { %>
+
+        <span>Welcome, <%= currentUser.username %></span>
+        <a href="/my-bookings">📋 My Bookings</a>
+
+        <form action="/logout" method="POST">
+            <button type="submit" class="nav-logout-btn">
+                Logout
+            </button>
+        </form>
+
+    <% } %>
+
+    <a href="/listings/new" class="add-listing-btn">
+        + Add Listing
+    </a>
+
+</div>
+
+</nav>
+
+<section class="hero">
+
+    <h1>Find Your Perfect Getaway</h1>
+
+    <p>Discover beautiful places to stay around the world.</p>
+
+<form class="search-box" action="/" method="GET">
+
+    <input
+        type="text"
+        name="search"
+        placeholder="Search destinations..."
+    >
+    <button type="submit">Search</button>
+
+</form>
+
+</section>
+
+<div class="categories">
+
+    <a href="/?category=Beaches" class="category-card">
+        <img
+            src="https://images.unsplash.com/photo-1500375592092-40eb2168fd21?w=300"
+            alt="Beaches"
+        >
+        <span>Beaches</span>
+    </a>
+
+    <a href="/?category=Mountains" class="category-card">
+        <img
+            src="https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?w=300"
+            alt="Mountains"
+        >
+        <span>Mountains</span>
+    </a>
+
+    <a href="/?category=City" class="category-card">
+        <img
+            src="https://images.unsplash.com/photo-1519501025264-65ba15a82390?w=300"
+            alt="City"
+        >
+        <span>City</span>
+    </a>
+
+</div>
+
+    <div class="listings-container">
+
+        <% for (let listing of listings) { %>
+
+           <a href="/listings/<%= listing._id %>" class="listing-link">
+
+    <div class="listing-card">
+
+                <img src="<%= listing.image %>" alt="<%= listing.title %>">
+                <% if (currentUser && listing.owner &&
+    listing.owner.toString() === currentUser._id.toString()) { %>
+
+    <span class="owner-badge">🏠 Your Listing</span>
+
+<% } %>
+                <h2><%= listing.title %></h2>
+
+               <p class="location">
+         📍 <%= listing.location %>, <%= listing.country %>
+             </p>
+                <p><%= listing.description %></p>
+
+                <p class="price">₹ <%= listing.price %> / night</p>
+
+            </div>
+            </a>
+
+        <% } %>
+
+    </div>
+
+
+<footer class="footer">
+    <div class="footer-content">
+        <div class="footer-brand">
+            <h2>Wanderlust 🏠</h2>
+            <p>Find your place. Create your memories.</p>
+        </div>
+        <div class="footer-bottom">
+            <p>
+                © 2026 Wanderlust. All rights reserved.
+            </p>
+            <p><b>Made with ❤️ by Prashant and Rohit </b></p>
+        </div>
+    </div>
+
+</footer>
+
+</body>
+</html>
